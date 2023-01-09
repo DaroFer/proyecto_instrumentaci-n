@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script>
+  // An mqtt variable will be initialized globally
+  console.log(mqtt)
+  const url = 'wss://io.adafruit.com'
+  const options = {
+  // Clean session
+  clean: true,
+  connectTimeout: 4000,
+  // Authentication
+  clientId: '0F6YVCKSE7NEQPTNPJW6RVA55P',
+  username: 'shalizxdxd',
+  password: 'aio_QhhE371lsZXUILtQYs6WC6vip0oh',
+}
+
+const client  = mqtt.connect(url, options)
+
+const minumun_temperature = 20
+const maximun_temperature = 25
+
+client.on('connect', function () {
+  console.log('Connected')
+  // Subscribe to a topic
+  client.subscribe('shalizxdxd/feeds/humedad', function (humedad) {
+    console.log({humedad})
+    if (!humedad) {
+      // Publish a message to a topic
+      // client.publish('test', 'Hello mqtt')
+    }
+  })
+
+  client.subscribe('shalizxdxd/feeds/temperatura', function (temperatura) {
+    console.log({temperatura})
+    if (!temperatura) {
+      // Publish a message to a topic
+      // client.publish('test', 'Hello mqtt')
+    }
+  })
+})
+
+client.on('message', function (topic, message) {
+  // message is Buffer
+  console.log(topic, message.toString())
+  // client.end()
+})
+</script>
+</html>
